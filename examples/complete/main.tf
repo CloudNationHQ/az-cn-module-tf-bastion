@@ -24,8 +24,8 @@ module "network" {
   environment = var.environment
 
   vnet = {
-    location      = module.global.groups.network.location
-    resourcegroup = module.global.groups.network.name
+    location      = module.rg.groups.network.location
+    resourcegroup = module.rg.groups.network.name
     cidr          = ["10.18.0.0/16"]
   }
   depends_on = [module.rg]
@@ -38,8 +38,8 @@ module "bastion" {
   environment = var.environment
 
   bastion = {
-    location              = module.global.groups.demo.location
-    resourcegroup         = module.global.groups.demo.name
+    location              = module.rg.groups.demo.location
+    resourcegroup         = module.rg.groups.demo.name
     subnet_address_prefix = ["10.18.0.0/27"]
     scale_units           = 2
     sku                   = "Standard"
