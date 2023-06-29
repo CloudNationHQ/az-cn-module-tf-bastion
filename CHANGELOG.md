@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/compare/v0.1.0...v0.1.1) (2023-06-29)
+
+
+### Bug Fixes
+
+* replace wrong module references ([#6](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/issues/6)) ([89cd57a](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/commit/89cd57a26a9ccec31e9cfc350bba78d63db22dbf))
+
 ## 0.1.0 (2023-06-28)
 
 
