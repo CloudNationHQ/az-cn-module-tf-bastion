@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/compare/v0.1.1...v0.2.0) (2023-06-30)
+
+
+### Features
+
+* refactor workflows and solved linting issues ([#8](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/issues/8)) ([e1362ae](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/commit/e1362ae0f582a763db2a8248b66aebaa8139e1ec))
+
 ## [0.1.1](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/compare/v0.1.0...v0.1.1) (2023-06-29)
 
 
