@@ -26,10 +26,13 @@ The below examples shows the usage when consuming the module:
 module "bastion" {
   source = "../../"
 
-  workload    = var.workload
-  environment = var.environment
+  naming = {
+    public_ip              = module.naming.public_ip.name
+    network_security_group = module.naming.network_security_group.name
+  }
 
   bastion = {
+    name                  = module.naming.bastion_host.name
     location              = module.global.groups.demo.location
     resourcegroup         = module.global.groups.demo.name
     subnet_address_prefix = ["10.18.0.0/27"]
@@ -73,8 +76,7 @@ module "bastion" {
 | Name | Description | Type | Required |
 | :-- | :-- | :-- | :-- |
 | `bastion` | describes bastion related configuration | object | yes |
-| `workload` | contains the workload name used, for naming convention | string | yes |
-| `environment` | contains shortname of the environment used for naming convention | string | yes |
+| `naming` | contains naming convention | string | yes |
 
 ## Outputs
 
