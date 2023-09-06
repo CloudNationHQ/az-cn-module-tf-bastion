@@ -37,6 +37,33 @@ module "bastion" {
     resourcegroup         = module.global.groups.demo.name
     subnet_address_prefix = ["10.18.0.0/27"]
     scale_units           = 2
+
+    vnet = {
+      name   = module.network.vnet.name
+      rgname = module.network.vnet.resource_group_name
+    }
+  }
+  depends_on = [module.network]
+}
+```
+
+## Usage: standard sku features
+
+```hcl
+module "bastion" {
+  source = "../../"
+
+  naming = {
+    public_ip              = module.naming.public_ip.name
+    network_security_group = module.naming.network_security_group.name
+  }
+
+  bastion = {
+    name                  = module.naming.bastion_host.name
+    location              = module.global.groups.demo.location
+    resourcegroup         = module.global.groups.demo.name
+    subnet_address_prefix = ["10.18.0.0/27"]
+    scale_units           = 2
     sku                   = "Standard"
 
     enable = {
