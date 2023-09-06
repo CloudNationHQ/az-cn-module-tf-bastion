@@ -33,8 +33,8 @@ module "bastion" {
 
   bastion = {
     name                  = module.naming.bastion_host.name
-    location              = module.global.groups.demo.location
-    resourcegroup         = module.global.groups.demo.name
+    location              = module.global.groups.bastion.location
+    resourcegroup         = module.global.groups.bastion.name
     subnet_address_prefix = ["10.18.0.0/27"]
     scale_units           = 2
 
@@ -60,8 +60,8 @@ module "bastion" {
 
   bastion = {
     name                  = module.naming.bastion_host.name
-    location              = module.global.groups.demo.location
-    resourcegroup         = module.global.groups.demo.name
+    location              = module.global.groups.bastion.location
+    resourcegroup         = module.global.groups.bastion.name
     subnet_address_prefix = ["10.18.0.0/27"]
     scale_units           = 2
     sku                   = "Standard"
