@@ -5,7 +5,7 @@ provider "azurerm" {
 module "naming" {
   source = "github.com/cloudnationhq/az-cn-module-tf-naming"
 
-  suffix = ["${var.environment}", "${var.workload}"]
+  suffix = ["dev", "demo"]
 }
 
 module "rg" {
