@@ -12,12 +12,12 @@ module "rg" {
   source = "github.com/cloudnationhq/az-cn-module-tf-rg"
 
   groups = {
-    demo = {
-      name   = module.naming.resource_group.name
+    bastion = {
+      name   = join("-", [module.naming.virtual_network.name, "bastion"])
       region = "westeurope"
     }
     network = {
-      name   = module.naming.resource_group.name
+      name   = join("-", [module.naming.virtual_network.name, "network"])
       region = "westeurope"
     }
   }
@@ -51,8 +51,8 @@ module "bastion" {
 
   bastion = {
     name                  = module.naming.bastion_host.name
-    location              = module.rg.groups.demo.location
-    resourcegroup         = module.rg.groups.demo.name
+    location              = module.rg.groups.bastion.location
+    resourcegroup         = module.rg.groups.bastion.name
     subnet_address_prefix = ["10.18.0.0/27"]
     scale_units           = 2
     sku                   = "Standard"
