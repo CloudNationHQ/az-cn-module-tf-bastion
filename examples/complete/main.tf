@@ -26,7 +26,6 @@ module "rg" {
 module "network" {
   source = "github.com/cloudnationhq/az-cn-module-tf-vnet"
 
-
   naming = {
     subnet                 = module.naming.subnet.name
     network_security_group = module.naming.network_security_group.name
