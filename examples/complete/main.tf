@@ -13,11 +13,11 @@ module "rg" {
 
   groups = {
     bastion = {
-      name   = join("-", [module.naming.virtual_network.name, "bastion"])
+      name   = join("-", [module.naming.resource_group.name, "bastion"])
       region = "westeurope"
     }
     network = {
-      name   = join("-", [module.naming.virtual_network.name, "network"])
+      name   = join("-", [module.naming.resource_group.name, "network"])
       region = "westeurope"
     }
   }
