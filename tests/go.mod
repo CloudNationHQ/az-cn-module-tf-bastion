@@ -2,7 +2,7 @@ module github.com/cloudnationhq/az-cn-module-tf-bastion
 
 go 1.20
 
-require github.com/gruntwork-io/terratest v0.43.5
+require github.com/gruntwork-io/terratest v0.43.6
 
 require (
 	cloud.google.com/go v0.107.0 // indirect
