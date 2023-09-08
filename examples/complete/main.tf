@@ -2,16 +2,22 @@ provider "azurerm" {
   features {}
 }
 
+module "naming" {
+  source = "github.com/cloudnationhq/az-cn-module-tf-naming"
+
+  suffix = ["dev", "demo"]
+}
+
 module "rg" {
   source = "github.com/cloudnationhq/az-cn-module-tf-rg"
 
-  environment = var.environment
-
   groups = {
-    demo = {
+    bastion = {
+      name   = join("-", [module.naming.resource_group.name, "bastion"])
       region = "westeurope"
     }
     network = {
+      name   = join("-", [module.naming.resource_group.name, "network"])
       region = "westeurope"
     }
   }
@@ -20,10 +26,14 @@ module "rg" {
 module "network" {
   source = "github.com/cloudnationhq/az-cn-module-tf-vnet"
 
-  workload    = var.workload
-  environment = var.environment
+  naming = {
+    subnet                 = module.naming.subnet.name
+    network_security_group = module.naming.network_security_group.name
+    route_table            = module.naming.route_table.name
+  }
 
   vnet = {
+    name          = module.naming.virtual_network.name
     location      = module.rg.groups.network.location
     resourcegroup = module.rg.groups.network.name
     cidr          = ["10.18.0.0/16"]
@@ -34,12 +44,15 @@ module "network" {
 module "bastion" {
   source = "../../"
 
-  workload    = var.workload
-  environment = var.environment
+  naming = {
+    public_ip              = module.naming.public_ip.name
+    network_security_group = module.naming.network_security_group.name
+  }
 
   bastion = {
-    location              = module.rg.groups.demo.location
-    resourcegroup         = module.rg.groups.demo.name
+    name                  = module.naming.bastion_host.name
+    location              = module.rg.groups.bastion.location
+    resourcegroup         = module.rg.groups.bastion.name
     subnet_address_prefix = ["10.18.0.0/27"]
     scale_units           = 2
     sku                   = "Standard"

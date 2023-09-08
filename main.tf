@@ -14,7 +14,7 @@ resource "azurerm_subnet" "sn" {
 
 # public ip
 resource "azurerm_public_ip" "pip" {
-  name                = "pip-${var.workload}-${var.environment}"
+  name                = var.naming.public_ip
   resource_group_name = var.bastion.resourcegroup
   location            = var.bastion.location
   allocation_method   = "Static"
@@ -24,7 +24,7 @@ resource "azurerm_public_ip" "pip" {
 
 # bastion host
 resource "azurerm_bastion_host" "bastion" {
-  name                = "bas-${var.workload}-${var.environment}"
+  name                = var.bastion.name
   resource_group_name = var.bastion.resourcegroup
   location            = var.bastion.location
 
@@ -45,7 +45,7 @@ resource "azurerm_bastion_host" "bastion" {
 
 # network security group
 resource "azurerm_network_security_group" "nsg" {
-  name                = "nsg-${var.workload}-${var.environment}"
+  name                = var.naming.network_security_group
   resource_group_name = data.azurerm_virtual_network.vnet.resource_group_name
   location            = data.azurerm_virtual_network.vnet.location
 
