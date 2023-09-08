@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.3.0](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/compare/v0.2.0...v0.3.0) (2023-09-08)
+
+
+### Features
+
+* Add consistent naming  ([#13](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/issues/13)) ([b63345d](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/commit/b63345d2baff8c28840de199ac169d74c2b0ac4f))
+* **deps:** bump github.com/gruntwork-io/terratest in /tests ([#10](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/issues/10)) ([2238bd7](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/commit/2238bd7797998b28feb13b18003b06c391072afd))
+* **deps:** bump google.golang.org/grpc from 1.51.0 to 1.53.0 in /tests ([#11](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/issues/11)) ([ee8b736](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/commit/ee8b7363d3fe1e2b0883828fde56b2729c19faf3))
+
 ## [0.2.0](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/compare/v0.1.1...v0.2.0) (2023-06-30)
 
 
