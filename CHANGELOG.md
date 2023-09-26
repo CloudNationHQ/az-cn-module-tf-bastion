@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/compare/v0.3.0...v0.4.0) (2023-09-26)
+
+
+### Features
+
+* add extended tests and small cleanup ([#17](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/issues/17)) ([23e47f7](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/commit/23e47f788417248c5052ff5e91cf5a7935bc7eda))
+* **deps:** bump github.com/gruntwork-io/terratest in /tests ([#14](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/issues/14)) ([049bc9e](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/commit/049bc9e1b4780569b6f5fe08d1b5461fa74d8b7d))
+
 ## [0.3.0](https://github.com/CloudNationHQ/az-cn-module-tf-bastion/compare/v0.2.0...v0.3.0) (2023-09-08)
 
 
