@@ -24,60 +24,17 @@ The below examples shows the usage when consuming the module:
 
 ```hcl
 module "bastion" {
-  source = "../../"
+  source = "github.com/cloudnationhq/az-cn-module-tf-bastion"
 
-  naming = {
-    public_ip              = module.naming.public_ip.name
-    network_security_group = module.naming.network_security_group.name
-  }
+  naming = local.naming
 
   bastion = {
-    name                  = module.naming.bastion_host.name
-    location              = module.global.groups.bastion.location
-    resourcegroup         = module.global.groups.bastion.name
-    subnet_address_prefix = ["10.18.0.0/27"]
-    scale_units           = 2
-
-    vnet = {
-      name   = module.network.vnet.name
-      rgname = module.network.vnet.resource_group_name
-    }
+    name          = module.naming.bastion_host.name
+    location      = module.rg.groups.demo.location
+    resourcegroup = module.rg.groups.demo.name
+    subnet        = module.network.subnets.bastion.id
+    copy_paste    = true
   }
-  depends_on = [module.network]
-}
-```
-
-## Usage: standard sku features
-
-```hcl
-module "bastion" {
-  source = "../../"
-
-  naming = {
-    public_ip              = module.naming.public_ip.name
-    network_security_group = module.naming.network_security_group.name
-  }
-
-  bastion = {
-    name                  = module.naming.bastion_host.name
-    location              = module.global.groups.bastion.location
-    resourcegroup         = module.global.groups.bastion.name
-    subnet_address_prefix = ["10.18.0.0/27"]
-    scale_units           = 2
-    sku                   = "Standard"
-
-    enable = {
-      copy_paste = false
-      file_copy  = false
-      ip_connect = true
-    }
-
-    vnet = {
-      name   = module.network.vnet.name
-      rgname = module.network.vnet.resource_group_name
-    }
-  }
-  depends_on = [module.network]
 }
 ```
 
@@ -86,17 +43,14 @@ module "bastion" {
 | Name | Type |
 | :-- | :-- |
 | [azurerm_resource_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
-| [azurerm_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_public_ip](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
 | [azurerm_bastion_host](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/bastion_host) | resource |
-| [azurerm_network_security_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
-| [azurerm_subnet_network_security_group_association](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_network_security_group_association) | resource |
 
 ## Data Sources
 
 | Name | Type |
 | :-- | :-- |
-| [azurerm_virtual_network](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | datasource |
+| [azurerm_subscription](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | datasource |
 
 ## Inputs
 
@@ -109,21 +63,28 @@ module "bastion" {
 
 | Name | Description |
 | :-- | :-- |
-| `bastion` | contains all bastion related configuration |
+| `host` | contains all bastion host related configuration |
+| `subscriptionId` | contains the current subscription id|
 
 ## Testing
 
-The github repository utilizes a Makefile to conduct tests to evaluate and validate different configurations of the module. These tests are designed to enhance its stability and reliability.
+As a prerequirement, please ensure that both go and terraform are properly installed on your system.
 
-Before initiating the tests, please ensure that both go and terraform are properly installed on your system.
+The [Makefile](Makefile) includes two distinct variations of tests. The first one is designed to deploy different usage scenarios of the module. These tests are executed by specifying the TF_PATH environment variable, which determines the different usages located in the example directory.
 
-The [Makefile](Makefile) incorporates three distinct test variations. The first one, a local deployment test, is designed for local deployments and allows the overriding of workload and environment values. It includes additional checks and can be initiated using the command ```make test_local```.
+To execute this test, input the command ```make test TF_PATH=simple```, substituting simple with the specific usage you wish to test.
 
-The second variation is an extended test. This test performs additional validations and serves as the default test for the module within the github workflow.
+The second variation is known as a extended test. This one performs additional checks and can be executed without specifying any parameters, using the command ```make test_extended```.
 
-The third variation allows for specific deployment tests. By providing a unique test name in the github workflow, it overrides the default extended test, executing the specific deployment test instead.
+Both are designed to be executed locally and are also integrated into the github workflow.
 
 Each of these tests contributes to the robustness and resilience of the module. They ensure the module performs consistently and accurately under different scenarios and configurations.
+
+## Notes
+
+Using a dedicated module, we've developed a naming convention for resources that's based on specific regular expressions for each type, ensuring correct abbreviations and offering flexibility with multiple prefixes and suffixes
+
+Full examples detailing all usages, along with integrations with dependency modules, are located in the examples directory
 
 ## Authors
 
@@ -137,4 +98,4 @@ MIT Licensed. See [LICENSE](https://github.com/cloudnationhq/az-cn-module-tf-bas
 
 - [Documentation](https://learn.microsoft.com/en-us/azure/bastion/)
 - [Rest Api](https://learn.microsoft.com/en-us/rest/api/virtualnetwork/bastion-hosts)
-
+- [Rest Api Specs](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/network/resource-manager/Microsoft.Network/stable/2023-04-01/bastionHost.json)
