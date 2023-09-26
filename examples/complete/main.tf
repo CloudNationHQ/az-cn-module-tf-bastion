@@ -12,12 +12,8 @@ module "rg" {
   source = "github.com/cloudnationhq/az-cn-module-tf-rg"
 
   groups = {
-    bastion = {
-      name   = join("-", [module.naming.resource_group.name, "bastion"])
-      region = "westeurope"
-    }
-    network = {
-      name   = join("-", [module.naming.resource_group.name, "network"])
+    demo = {
+      name   = module.naming.resource_group.name
       region = "westeurope"
     }
   }
@@ -26,48 +22,34 @@ module "rg" {
 module "network" {
   source = "github.com/cloudnationhq/az-cn-module-tf-vnet"
 
-  naming = {
-    subnet                 = module.naming.subnet.name
-    network_security_group = module.naming.network_security_group.name
-    route_table            = module.naming.route_table.name
-  }
+  naming = local.naming
 
   vnet = {
     name          = module.naming.virtual_network.name
-    location      = module.rg.groups.network.location
-    resourcegroup = module.rg.groups.network.name
+    location      = module.rg.groups.demo.location
+    resourcegroup = module.rg.groups.demo.name
     cidr          = ["10.18.0.0/16"]
+
+    subnets = {
+      bastion = {
+        name  = "AzureBastionSubnet"
+        cidr  = ["10.18.1.0/27"]
+        rules = local.rules
+      }
+    }
   }
-  depends_on = [module.rg]
 }
 
 module "bastion" {
   source = "../../"
 
-  naming = {
-    public_ip              = module.naming.public_ip.name
-    network_security_group = module.naming.network_security_group.name
-  }
+  naming = local.naming
 
   bastion = {
-    name                  = module.naming.bastion_host.name
-    location              = module.rg.groups.bastion.location
-    resourcegroup         = module.rg.groups.bastion.name
-    subnet_address_prefix = ["10.18.0.0/27"]
-    scale_units           = 2
-    sku                   = "Standard"
-
-    enable = {
-      copy_paste = false
-      file_copy  = false
-      ip_connect = true
-    }
-
-    vnet = {
-      name   = module.network.vnet.name
-      rgname = module.network.vnet.resource_group_name
-    }
+    name          = module.naming.bastion_host.name
+    location      = module.rg.groups.demo.location
+    resourcegroup = module.rg.groups.demo.name
+    subnet        = module.network.subnets.bastion.id
+    copy_paste    = true
   }
-  depends_on = [module.network]
 }
-
